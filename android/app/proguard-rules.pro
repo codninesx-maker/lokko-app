@@ -1,0 +1,2 @@
+-keep class com.rxai.lokko.lokko_market.model.** { *; }
+-keep class io.flutter.plugins.** { *; }
