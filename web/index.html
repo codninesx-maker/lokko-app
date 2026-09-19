@@ -1,22 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <base href="$FLUTTER_BASE_HREF">
-  <meta charset="utf-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="Lokko Market - Buy and sell locally.">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Lokko Market</title>
-  <link rel="manifest" href="manifest.json">
-
-  <script type="text/javascript">
+<script type="text/javascript">
     window.addEventListener('load', function() {
       const fullUrl = window.location.href;
       const playStoreUrl = "https://play.google.com/store/apps/details?id=com.rxai.lokko";
       const isAndroid = /android/i.test(navigator.userAgent);
 
-      // Check if the URL contains an ad route (supports both /ad/ID and #/ad/ID)
+      // Check if URL contains an ad route (supports standard paths and hash routes like /#/ad/)
       if (fullUrl.includes('/ad/')) {
         const parts = fullUrl.split('/ad/');
         const adId = parts[1] ? parts[1].split('/')[0].split('?')[0].split('#')[0] : '';
@@ -35,7 +23,7 @@
         }
       }
 
-      // If it's a standard web visit, let Flutter bootstrap normally
+      // Standard Flutter bootstrap for normal web visitors...
       const scriptTag = document.createElement('script');
       scriptTag.src = 'flutter.js';
       scriptTag.type = 'application/javascript';
@@ -54,10 +42,3 @@
       document.body.appendChild(scriptTag);
     });
   </script>
-</head>
-<body>
-  <div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif;">
-    <p>Opening Lokko Market...</p>
-  </div>
-</body>
-</html>
