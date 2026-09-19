@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Lokko Market</title>
+  <script type="text/javascript">
+    // Redirects all 404s back to index.html with the path preserved as a query string or hash
+    var segment = 1; // Change this if your repo subpath changes (lokko-app is 1 segment)
+    var pathSegments = window.location.pathname.split('/');
+    var repoName = pathSegments[1];
+
+    var l = window.location;
+    l.replace(
+      l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+      '/' + repoName + '/?p=/' + pathSegments.slice(2).join('/') + l.search + l.hash
+    );
+  </script>
+</head>
+<body>
+</body>
+</html>
