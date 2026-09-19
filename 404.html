@@ -5,34 +5,17 @@
   <title>Lokko Market</title>
   <script type="text/javascript">
     // Single Page Apps for GitHub Pages
-    // This script takes the current URL and redirects it to index.html with the route intact
+    // This script takes the current URL path and passes it to index.html via query parameter
     var segmentCount = 1; // Set to 1 for github.io/lokko-app/
     var l = window.location;
     
-    // Check if it's an ad link specifically, or pass the full path
-    var pathSegments = l.pathname.split('/');
-    
-    // If it contains an ad route, we can handle it or redirect back to base with hash/path
-    if (l.href.includes('/ad/')) {
-      // Redirect to the main index page while preserving the query/path parameters
-      window.location.replace(
-        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-        l.pathname.split('/').slice(0, 1 + segmentCount).join('/') + '/?p=/' + 
-        l.pathname.slice(1).split('/').slice(segmentCount).join('/') + l.search + l.hash
-      );
-    } else {
-      // General fallback for any other route
-      window.location.replace(
-        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-        l.pathname.split('/').slice(0, 1 + segmentCount).join('/') + '/?p=/' + 
-        l.pathname.slice(1).split('/').slice(segmentCount).join('/') + l.search + l.hash
-      );
-    }
+    window.location.replace(
+      l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+      l.pathname.split('/').slice(0, 1 + segmentCount).join('/') + '/?p=/' + 
+      l.pathname.slice(1).split('/').slice(segmentCount).join('/') + l.search + l.hash
+    );
   </script>
 </head>
 <body>
-  <div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif;">
-    <p>Redirecting to Lokko Market...</p>
-  </div>
 </body>
 </html>
