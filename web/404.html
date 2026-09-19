@@ -1,21 +1,63 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <base href="$FLUTTER_BASE_HREF">
   <meta charset="utf-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="Lokko Market - Buy and sell locally.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Lokko Market</title>
+  <link rel="manifest" href="manifest.json">
+
   <script type="text/javascript">
-    // Single Page Apps for GitHub Pages
-    // This script takes the current URL path and passes it to index.html via query parameter
-    var segmentCount = 1; // Set to 1 for github.io/lokko-app/
-    var l = window.location;
-    
-    window.location.replace(
-      l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-      l.pathname.split('/').slice(0, 1 + segmentCount).join('/') + '/?p=/' + 
-      l.pathname.slice(1).split('/').slice(segmentCount).join('/') + l.search + l.hash
-    );
+    window.addEventListener('load', function() {
+      const fullUrl = window.location.href;
+      const playStoreUrl = "https://play.google.com/store/apps/details?id=com.rxai.lokko";
+      const isAndroid = /android/i.test(navigator.userAgent);
+
+      // Check if the URL contains an ad route (supports both /ad/ID and #/ad/ID)
+      if (fullUrl.includes('/ad/')) {
+        const parts = fullUrl.split('/ad/');
+        const adId = parts[1] ? parts[1].split('/')[0].split('?')[0].split('#')[0] : '';
+
+        if (adId && isAndroid) {
+          const customSchemeUrl = "lokko://ad/" + adId;
+
+          // Attempt to open the app directly to the post
+          window.location.replace(customSchemeUrl);
+
+          // Fallback to Play Store if the app isn't installed
+          setTimeout(function() {
+            window.location.href = playStoreUrl;
+          }, 1500);
+          return;
+        }
+      }
+
+      // If it's a standard web visit, let Flutter bootstrap normally
+      const scriptTag = document.createElement('script');
+      scriptTag.src = 'flutter.js';
+      scriptTag.type = 'application/javascript';
+      scriptTag.onload = function() {
+        _flutter.loader.loadEntrypoint({
+          serviceWorker: {
+            serviceWorkerVersion: serviceWorkerVersion,
+          },
+          onEntrypointLoaded: function(engineInitializer) {
+            engineInitializer.initializeEngine().then(function(appRunner) {
+              appRunner.run();
+            });
+          }
+        });
+      };
+      document.body.appendChild(scriptTag);
+    });
   </script>
 </head>
 <body>
+  <div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif;">
+    <p>Opening Lokko Market...</p>
+  </div>
 </body>
 </html>
