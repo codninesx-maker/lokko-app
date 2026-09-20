@@ -157,9 +157,8 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
         IconButton(
           icon: const Icon(Icons.share, size: 20),
           onPressed: () {
-            // 1. Direct URL structure on your domain
-            // Using a clean path like /ad/${ad.id}
-            final String postLink = "https://codninesx-maker.github.io/ad/${ad.id}";
+            // 1. Clean path format for Android App Links and web routing
+            final String postLink = "https://codninesx-maker.github.io/lokko-app/#/ad/${ad.id}";
 
             // 2. Format the text
             final String shareText =
