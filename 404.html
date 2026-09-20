@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+  <meta charset="utf-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="Lokko Market - Buy and sell locally.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Lokko Market</title>
+  <link rel="manifest" href="manifest.json">
+
+  <script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const pathname = window.location.pathname; // e.g. /lokko-app/ad/12345
+    const hash = window.location.hash;
+    const targetUrl = pathname.includes('/ad/') ? pathname : hash;
+
+    if (targetUrl.includes('/ad/')) {
+      const isAndroid = /android/i.test(navigator.userAgent);
+      const isiOS = /ipad|iphone|ipod/i.test(navigator.userAgent);
+
+      if (isAndroid || isiOS) {
+        // Extract the ad ID safely from clean path or hash
+        const parts = targetUrl.split('/ad/');
+        const adId = parts[parts.length - 1].replace('/', '');
+        
+        const customSchemeUrl = `lokko://ad/${adId}`;
+        const playStoreUrl = 'https://play.google.com/store/apps/details?id=com.rxai.lokko_market';
+
+        // Try opening the app first
+        window.location.href = customSchemeUrl;
+
+        // Fallback to Play Store cleanly if not installed
+        setTimeout(() => {
+          window.location.replace(playStoreUrl);
+        }, 1200);
+      }
+    }
+  });
+</script>
+</head>
+<body>
+  <div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif;">
+    <p>Opening Lokko Market...</p>
+  </div>
+</body>
+</html>
