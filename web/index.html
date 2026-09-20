@@ -10,50 +10,35 @@
   <title>Lokko Market</title>
   <link rel="manifest" href="manifest.json">
 
-  <script type="text/javascript">
-    window.addEventListener('load', function() {
-      const fullUrl = window.location.href;
-      const playStoreUrl = "https://play.google.com/store/apps/details?id=com.rxai.lokko";
+  <script>
+  // Intercept shared post links on mobile browsers
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const hash = window.location.hash; // e.g. #/ad/12345
+    if (hash.includes('/ad/')) {
       const isAndroid = /android/i.test(navigator.userAgent);
+      const isiOS = /ipad|iphone|ipod/i.test(navigator.userAgent);
 
-      // Check if URL contains an ad route (supports standard paths and hash routes like /#/ad/)
-      if (fullUrl.includes('/ad/')) {
-        const parts = fullUrl.split('/ad/');
-        const adId = parts[1] ? parts[1].split('/')[0].split('?')[0].split('#')[0] : '';
+      if (isAndroid || isiOS) {
+        // Extract the ad ID from the hash
+        const adId = hash.split('/ad/')[1];
+        
+        // Define your custom app scheme
+        const customSchemeUrl = `lokko://ad/${adId}`;
+        
+        // Define your Google Play Store URL
+        const playStoreUrl = 'https://play.google.com/store/apps/details?id=com.rxai.lokko_market';
 
-        if (adId && isAndroid) {
-          const customSchemeUrl = "lokko://ad/" + adId;
+        // Attempt to launch the app via custom scheme
+        window.location.href = customSchemeUrl;
 
-          // Attempt to open the app directly to the post
-          window.location.replace(customSchemeUrl);
-
-          // Fallback to Play Store if the app isn't installed
-          setTimeout(function() {
-            window.location.href = playStoreUrl;
-          }, 1500);
-          return;
-        }
+        // If the app is not installed, redirect to Play Store after 1.5 seconds
+        setTimeout(() => {
+          window.location.href = playStoreUrl;
+        }, 1500);
       }
-
-      // Standard Flutter bootstrap for normal web visitors...
-      const scriptTag = document.createElement('script');
-      scriptTag.src = 'flutter.js';
-      scriptTag.type = 'application/javascript';
-      scriptTag.onload = function() {
-        _flutter.loader.loadEntrypoint({
-          serviceWorker: {
-            serviceWorkerVersion: serviceWorkerVersion,
-          },
-          onEntrypointLoaded: function(engineInitializer) {
-            engineInitializer.initializeEngine().then(function(appRunner) {
-              appRunner.run();
-            });
-          }
-        });
-      };
-      document.body.appendChild(scriptTag);
-    });
-  </script>
+    }
+  });
+</script>
 </head>
 <body>
   <div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif;">
