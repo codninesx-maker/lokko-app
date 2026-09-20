@@ -54,47 +54,35 @@
   </style>
 
   <script>
-    function getAdId() {
+    window.addEventListener('DOMContentLoaded', (event) => {
       const hash = window.location.hash;
       if (hash.includes('/ad/')) {
         const parts = hash.split('/ad/');
-        return parts[parts.length - 1].replace('/', '');
-      }
-      return null;
-    }
+        const adId = parts[parts.length - 1].replace('/', '');
+        const playStoreUrl = 'https://play.google.com/store/apps/details?id=com.rxai.lokko_market';
 
-    function openApp() {
-      const adId = getAdId();
-      const playStoreUrl = 'https://play.google.com/store/apps/details?id=com.rxai.lokko_market';
-      
-      if (!adId) {
-        window.location.href = playStoreUrl;
-        return;
-      }
+        const isAndroid = /android/i.test(navigator.userAgent);
+        const isiOS = /ipad|iphone|ipod/i.test(navigator.userAgent);
 
-      const isAndroid = /android/i.test(navigator.userAgent);
-      const isiOS = /ipad|iphone|ipod/i.test(navigator.userAgent);
+        const btn = document.getElementById('openBtn');
 
-      if (isAndroid) {
-        // Use proper intent syntax with explicit user tap gesture
-        const intentUrl = `intent://ad/${adId}#Intent;scheme=lokko;package=com.rxai.lokko_market;S.browser_fallback_url=${encodeURIComponent(playStoreUrl)};end;`;
-        window.location.href = intentUrl;
-      } else if (isiOS) {
-        window.location.href = `lokko://ad/${adId}`;
-        setTimeout(() => {
-          window.location.replace('https://apps.apple.com/app/idYOUR_IOS_ID');
-        }, 1500);
-      } else {
-        window.location.href = playStoreUrl;
-      }
-    }
-
-    // Optional: Auto-trigger if opened from an external app context that supports user gesture simulation
-    window.addEventListener('DOMContentLoaded', (event) => {
-      const adId = getAdId();
-      if (adId) {
-        // Update button action context
-        document.getElementById('openBtn').setAttribute('href', `lokko://ad/${adId}`);
+        if (isAndroid) {
+          // Correct Android Intent structure for browser fallback & direct launch
+          const intentUrl = `intent://ad/${adId}#Intent;scheme=lokko;package=com.rxai.lokko_market;S.browser_fallback_url=${encodeURIComponent(playStoreUrl)};end;`;
+          btn.setAttribute('href', intentUrl);
+          
+          // Automatically fire it on load; if installed it opens the app, else falls back to Play Store
+          window.location.replace(intentUrl);
+        } else if (isiOS) {
+          const iosAppUrl = `lokko://ad/${adId}`;
+          btn.setAttribute('href', iosAppUrl);
+          window.location.replace(iosAppUrl);
+          setTimeout(() => {
+            window.location.replace('https://apps.apple.com/app/idYOUR_IOS_ID');
+          }, 1500);
+        } else {
+          btn.setAttribute('href', playStoreUrl);
+        }
       }
     });
   </script>
@@ -102,8 +90,8 @@
 <body>
   <div class="card">
     <h2>Lokko Market</h2>
-    <p>Tap below to view this post in the app or get Lokko Market.</p>
-    <a id="openBtn" href="#" onclick="openApp(); return false;" class="btn">Open in Lokko App</a>
+    <p>Opening post in Lokko Market...</p>
+    <a id="openBtn" href="#" class="btn">Open in Lokko App</a>
   </div>
 </body>
 </html>
