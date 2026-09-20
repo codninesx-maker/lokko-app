@@ -157,8 +157,8 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
         IconButton(
           icon: const Icon(Icons.share, size: 20),
           onPressed: () {
-            // 1. CLEAN PATH FORMAT (Removed the hash # symbol)
-            final String postLink = "https://codninesx-maker.github.io/lokko-app/ad/${ad.id}";
+            // 1. Hash-based format ensures zero 404 errors on GitHub Pages
+            final String postLink = "https://codninesx-maker.github.io/lokko-app/#/ad/${ad.id}";
 
             // 2. Format the text
             final String shareText =
