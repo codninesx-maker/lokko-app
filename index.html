@@ -23,25 +23,16 @@
         // 1. Custom app deep link for when the app is installed
         const customSchemeUrl = `lokko://ad/${adId}`;
         
-        // 2. Correct Play Store fallback URLs
-        const playStoreAppUrl = 'market://details?id=com.rxai.lokko_market';
-        const playStoreWebUrl = 'https://play.google.com/store/apps/details?id=com.rxai.lokko_market';
+        // 2. Direct HTTPS Play Store Link (Safest and most reliable fallback)
+        const playStoreUrl = 'https://play.google.com/store/apps/details?id=com.rxai.lokko_market';
 
-        // Try opening the app first
+        // Try opening the custom scheme app route first
         window.location.href = customSchemeUrl;
 
-        // If not installed, fallback to Play Store after 1.5 seconds
+        // If the app isn't installed, smoothly redirect to the Play Store page after 1.2 seconds
         setTimeout(() => {
-          if (isAndroid) {
-            window.location.href = playStoreAppUrl;
-            // Backup web URL fallback if market:// fails
-            setTimeout(() => {
-              window.location.href = playStoreWebUrl;
-            }, 500);
-          } else {
-            window.location.href = playStoreWebUrl;
-          }
-        }, 1500);
+          window.location.href = playStoreUrl;
+        }, 1200);
       }
     }
   });
