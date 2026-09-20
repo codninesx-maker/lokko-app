@@ -17,13 +17,13 @@
       if (hash.includes('/ad/')) {
         const parts = hash.split('/ad/');
         const adId = parts[parts.length - 1].replace('/', '');
-        const playStoreUrl = 'https://play.google.com/store/apps/details?id=com.rxai.lokko_market';
+        const playStoreUrl = 'https://play.google.com/store/apps/details?id=com.rxai.lokko';
 
         const isAndroid = /android/i.test(navigator.userAgent);
         const isiOS = /ipad|iphone|ipod/i.test(navigator.userAgent);
 
         if (isAndroid) {
-          // 1. Construct the proper Android intent url with fallback
+          // 1. Correct Android intent URL with package: com.rxai.lokko
           const intentUrl = `intent://ad/${adId}#Intent;scheme=lokko;package=com.rxai.lokko;S.browser_fallback_url=${encodeURIComponent(playStoreUrl)};end;`;
           
           // 2. Trigger auto-navigation instantly
