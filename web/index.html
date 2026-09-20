@@ -18,21 +18,22 @@
       const isiOS = /ipad|iphone|ipod/i.test(navigator.userAgent);
 
       if (isAndroid || isiOS) {
-        const adId = hash.split('/ad/')[1];
+        const adId = hash.path ? hash : hash.split('/ad/')[1];
         
-        // 1. Custom app deep link for when the app is installed
         const customSchemeUrl = `lokko://ad/${adId}`;
-        
-        // 2. Direct HTTPS Play Store Link (Safest and most reliable fallback)
-        const playStoreUrl = 'https://play.google.com/store/apps/details?id=com.rxai.lokko_market';
+        const playStoreUrl = `https://play.google.com/store/apps/details?id=com.rxai.lokko_market`;
 
-        // Try opening the custom scheme app route first
-        window.location.href = customSchemeUrl;
-
-        // If the app isn't installed, smoothly redirect to the Play Store page after 1.2 seconds
-        setTimeout(() => {
-          window.location.href = playStoreUrl;
-        }, 1200);
+        if (isAndroid) {
+          // Use Android Intent URI scheme to cleanly handle installed apps vs Play Store fallback
+          const intentUri = `intent://ad/${adId}#Intent;scheme=lokko;package=com.rxai.lokko_market;S.browser_fallback_url=${encodeURIComponent(playStoreUrl)};end;`;
+          window.location.replace(intentUri);
+        } else {
+          // iOS fallback handling
+          window.location.href = customSchemeUrl;
+          setTimeout(() => {
+            window.location.href = 'https://apps.apple.com/app/idYOUR_IOS_ID'; // update if iOS is needed later
+          }, 1500);
+        }
       }
     }
   });
