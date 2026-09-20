@@ -9,53 +9,11 @@
 
   <title>Lokko Market</title>
   <link rel="manifest" href="manifest.json">
-  
-  <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background-color: #f9f9f9;
-      color: #333;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-    .card {
-      background: #ffffff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-      text-align: center;
-      max-width: 340px;
-      width: 90%;
-    }
-    .btn {
-      display: inline-block;
-      background-color: #2e7d32;
-      color: white;
-      font-weight: bold;
-      text-decoration: none;
-      padding: 14px 24px;
-      border-radius: 8px;
-      margin-top: 20px;
-      width: 100%;
-      box-sizing: border-box;
-      font-size: 16px;
-    }
-    .btn:active {
-      background-color: #1b5e20;
-    }
-    p {
-      margin: 10px 0 0 0;
-      color: #666;
-      font-size: 14px;
-    }
-  </style>
 
   <script>
     window.addEventListener('DOMContentLoaded', (event) => {
       const hash = window.location.hash;
+      
       if (hash.includes('/ad/')) {
         const parts = hash.split('/ad/');
         const adId = parts[parts.length - 1].replace('/', '');
@@ -64,34 +22,28 @@
         const isAndroid = /android/i.test(navigator.userAgent);
         const isiOS = /ipad|iphone|ipod/i.test(navigator.userAgent);
 
-        const btn = document.getElementById('openBtn');
-
         if (isAndroid) {
-          // Correct Android Intent structure for browser fallback & direct launch
+          // 1. Construct the proper Android intent url with fallback
           const intentUrl = `intent://ad/${adId}#Intent;scheme=lokko;package=com.rxai.lokko_market;S.browser_fallback_url=${encodeURIComponent(playStoreUrl)};end;`;
-          btn.setAttribute('href', intentUrl);
           
-          // Automatically fire it on load; if installed it opens the app, else falls back to Play Store
+          // 2. Trigger auto-navigation instantly
           window.location.replace(intentUrl);
+
         } else if (isiOS) {
-          const iosAppUrl = `lokko://ad/${adId}`;
-          btn.setAttribute('href', iosAppUrl);
-          window.location.replace(iosAppUrl);
+          window.location.replace(`lokko://ad/${adId}`);
           setTimeout(() => {
             window.location.replace('https://apps.apple.com/app/idYOUR_IOS_ID');
           }, 1500);
         } else {
-          btn.setAttribute('href', playStoreUrl);
+          window.location.replace(playStoreUrl);
         }
       }
     });
   </script>
 </head>
 <body>
-  <div class="card">
-    <h2>Lokko Market</h2>
-    <p>Opening post in Lokko Market...</p>
-    <a id="openBtn" href="#" class="btn">Open in Lokko App</a>
+  <div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; background-color: #f9f9f9; color: #555;">
+    <p>Opening Lokko Market...</p>
   </div>
 </body>
 </html>
