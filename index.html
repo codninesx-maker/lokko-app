@@ -12,28 +12,29 @@
 
   <script>
   window.addEventListener('DOMContentLoaded', (event) => {
-    const hash = window.location.hash; // e.g. #/ad/12345
-    if (hash.includes('/ad/')) {
+    const pathname = window.location.pathname; // e.g. /lokko-app/ad/12345
+    const hash = window.location.hash;
+    const targetUrl = pathname.includes('/ad/') ? pathname : hash;
+
+    if (targetUrl.includes('/ad/')) {
       const isAndroid = /android/i.test(navigator.userAgent);
       const isiOS = /ipad|iphone|ipod/i.test(navigator.userAgent);
 
       if (isAndroid || isiOS) {
-        const adId = hash.path ? hash : hash.split('/ad/')[1];
+        // Extract the ad ID safely from clean path or hash
+        const parts = targetUrl.split('/ad/');
+        const adId = parts[parts.length - 1].replace('/', '');
         
         const customSchemeUrl = `lokko://ad/${adId}`;
-        const playStoreUrl = `https://play.google.com/store/apps/details?id=com.rxai.lokko_market`;
+        const playStoreUrl = 'https://play.google.com/store/apps/details?id=com.rxai.lokko_market';
 
-        if (isAndroid) {
-          // Use Android Intent URI scheme to cleanly handle installed apps vs Play Store fallback
-          const intentUri = `intent://ad/${adId}#Intent;scheme=lokko;package=com.rxai.lokko_market;S.browser_fallback_url=${encodeURIComponent(playStoreUrl)};end;`;
-          window.location.replace(intentUri);
-        } else {
-          // iOS fallback handling
-          window.location.href = customSchemeUrl;
-          setTimeout(() => {
-            window.location.href = 'https://apps.apple.com/app/idYOUR_IOS_ID'; // update if iOS is needed later
-          }, 1500);
-        }
+        // Try opening the app first
+        window.location.href = customSchemeUrl;
+
+        // Fallback to Play Store cleanly if not installed
+        setTimeout(() => {
+          window.location.replace(playStoreUrl);
+        }, 1200);
       }
     }
   });
