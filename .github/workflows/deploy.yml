@@ -2,7 +2,7 @@ name: Deploy Flutter Web to GitHub Pages
 
 on:
   push:
-    branches: ["main"] # or master
+    branches: ["main"]
 
 permissions:
   contents: read
@@ -32,6 +32,9 @@ jobs:
       - name: Build Web
         run: flutter build web --release --base-href="/lokko-app/"
 
+      - name: Copy index.html to 404.html for SPA Routing
+        run: cp build/web/index.html build/web/404.html
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
@@ -39,14 +42,6 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: './build/web'
-      - name: Build Web
-        run: flutter build web --release --base-href="/lokko-app/"
-
-      - name: Copy index.html to 404.html for SPA Routing
-        run: cp build/web/index.html build/web/404.html
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
 
   deploy:
     environment:
