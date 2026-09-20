@@ -18,15 +18,18 @@
       const isAndroid = /android/i.test(navigator.userAgent);
       const isiOS = /ipad|iphone|ipod/i.test(navigator.userAgent);
 
-      if (isAndroid || isiOS) {
+      if (isAndroid) {
         const adId = hash.split('/ad/')[1].replace('/', '');
         
-        // 1. Try launching the custom app scheme
-        window.location.href = `lokko://ad/${adId}`;
+        // Use native Android Intent syntax to prevent URL truncation and 404s
+        const intentUrl = `intent://ad/${adId}#Intent;scheme=lokko;package=com.rxai.lokko_market;S.browser_fallback_url=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.rxai.lokko_market;end;`;
+        window.location.replace(intentUrl);
 
-        // 2. Fallback to the full Play Store URL safely after a delay
+      } else if (isiOS) {
+        const adId = hash.split('/ad/')[1].replace('/', '');
+        window.location.href = `lokko://ad/${adId}`;
         setTimeout(() => {
-          window.location.replace('https://play.google.com/store/apps/details?id=com.rxai.lokko_market');
+          window.location.replace('https://apps.apple.com/app/idYOUR_IOS_ID');
         }, 1200);
       }
     }
