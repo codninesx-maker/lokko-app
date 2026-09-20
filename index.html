@@ -11,7 +11,6 @@
   <link rel="manifest" href="manifest.json">
 
   <script>
-  // Intercept shared post links on mobile browsers
   window.addEventListener('DOMContentLoaded', (event) => {
     const hash = window.location.hash; // e.g. #/ad/12345
     if (hash.includes('/ad/')) {
@@ -19,21 +18,29 @@
       const isiOS = /ipad|iphone|ipod/i.test(navigator.userAgent);
 
       if (isAndroid || isiOS) {
-        // Extract the ad ID from the hash
         const adId = hash.split('/ad/')[1];
         
-        // Define your custom app scheme
+        // 1. Custom app deep link for when the app is installed
         const customSchemeUrl = `lokko://ad/${adId}`;
         
-        // Define your Google Play Store URL
-        const playStoreUrl = 'https://play.google.com/store/apps/details?id=com.rxai.lokko_market';
+        // 2. Correct Play Store fallback URLs
+        const playStoreAppUrl = 'market://details?id=com.rxai.lokko_market';
+        const playStoreWebUrl = 'https://play.google.com/store/apps/details?id=com.rxai.lokko_market';
 
-        // Attempt to launch the app via custom scheme
+        // Try opening the app first
         window.location.href = customSchemeUrl;
 
-        // If the app is not installed, redirect to Play Store after 1.5 seconds
+        // If not installed, fallback to Play Store after 1.5 seconds
         setTimeout(() => {
-          window.location.href = playStoreUrl;
+          if (isAndroid) {
+            window.location.href = playStoreAppUrl;
+            // Backup web URL fallback if market:// fails
+            setTimeout(() => {
+              window.location.href = playStoreWebUrl;
+            }, 500);
+          } else {
+            window.location.href = playStoreWebUrl;
+          }
         }, 1500);
       }
     }
