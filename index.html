@@ -21,15 +21,12 @@
       if (isAndroid || isiOS) {
         const adId = hash.split('/ad/')[1].replace('/', '');
         
-        const customSchemeUrl = `lokko://ad/${adId}`;
-        const playStoreUrl = 'https://play.google.com/store/apps/details?id=com.rxai.lokko_market';
+        // 1. Try launching the custom app scheme
+        window.location.href = `lokko://ad/${adId}`;
 
-        // Try opening the app via custom scheme
-        window.location.href = customSchemeUrl;
-
-        // Fallback to Play Store if app is not installed
+        // 2. Fallback to the full Play Store URL safely after a delay
         setTimeout(() => {
-          window.location.replace(playStoreUrl);
+          window.location.replace('https://play.google.com/store/apps/details?id=com.rxai.lokko_market');
         }, 1200);
       }
     }
