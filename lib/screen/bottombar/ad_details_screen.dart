@@ -619,18 +619,18 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
         )
             : Row(
           children: [
-            _actionBtn(Icons.call, "Call", () => _makeCall(ad.phoneNumber)),
+            _actionBtn(const Icon(Icons.call, size: 16), "Call", () => _makeCall(ad.phoneNumber)),
             const SizedBox(width: 8),
-            _actionBtn(Icons.chat_bubble_outline, "Chat", () => _openChat(ad)),
+            _actionBtn(const Icon(Icons.chat_bubble_outline, size: 16), "Chat", () => _openChat(ad)),
             const SizedBox(width: 8),
-            _actionBtn(FontAwesomeIcons.whatsapp, "WhatsApp", () => _openWhatsApp(ad.phoneNumber)),
+            _actionBtn(const FaIcon(FontAwesomeIcons.whatsapp, size: 16), "WhatsApp", () => _openWhatsApp(ad.phoneNumber)),
           ],
         ),
       ),
     );
   }
 
-  Widget _actionBtn(IconData icon, String label, VoidCallback onTap) {
+  Widget _actionBtn(Widget iconWidget, String label, VoidCallback onTap) {
     return Expanded(
       child: ElevatedButton.icon(
         style: ElevatedButton.styleFrom(
@@ -641,10 +641,10 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
         ),
         onPressed: () {
-          HapticFeedback.lightImpact(); // Add this line
+          HapticFeedback.lightImpact();
           onTap();
         },
-        icon: Icon(icon, size: 16),
+        icon: iconWidget,
         label: Text(label, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
       ),
     );
