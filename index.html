@@ -24,7 +24,7 @@
 
         if (isAndroid) {
           // 1. Construct the proper Android intent url with fallback
-          const intentUrl = `intent://ad/${adId}#Intent;scheme=lokko;package=com.rxai.lokko_market;S.browser_fallback_url=${encodeURIComponent(playStoreUrl)};end;`;
+          const intentUrl = `intent://ad/${adId}#Intent;scheme=lokko;package=com.rxai.lokko;S.browser_fallback_url=${encodeURIComponent(playStoreUrl)};end;`;
           
           // 2. Trigger auto-navigation instantly
           window.location.replace(intentUrl);
