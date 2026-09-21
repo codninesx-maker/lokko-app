@@ -1,7 +1,7 @@
 name: lokko_market
 description: "A district-level classifieds Lokko marketplace like Bikroy."
 publish_to: 'none'
-version: 1.0.0+1
+version: 7.0.0+18
 
 environment:
   sdk: '>=3.7.0 <4.0.0'

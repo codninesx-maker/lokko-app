@@ -228,7 +228,7 @@ class AccountScreen extends ConsumerWidget {
             ),
             // 🔼 END OF AD PLACEMENT 🔼
 
-            const Text("Version 6.2.7", style: TextStyle(color: Colors.grey, fontSize: 12)),
+            const Text("Version 7.0.0", style: TextStyle(color: Colors.grey, fontSize: 12)),
             const SizedBox(height: 40),
           ],
         ),

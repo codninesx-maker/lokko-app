@@ -70,7 +70,7 @@ void showAboutLokkoSheet(BuildContext context) {
                 borderRadius: BorderRadius.circular(20),
               ),
               child: const Text(
-                "v6.2.7",
+                "v7.0.0",
                 style: TextStyle(color: lokkoGreen, fontSize: 12, fontWeight: FontWeight.bold),
               ),
             ),
