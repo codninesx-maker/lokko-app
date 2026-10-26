@@ -28,8 +28,8 @@ android {
         applicationId = "com.rxai.lokko"
         minSdk = 24
         targetSdk = 36 // Updated to API 36
-        versionCode = 18
-        versionName = "7.0.0"
+        versionCode = 19
+        versionName = "7.0.1"
     }
 
     signingConfigs {
