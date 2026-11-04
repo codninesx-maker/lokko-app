@@ -4,8 +4,9 @@
     "target": {
       "namespace": "android_app",
       "package_name": "com.rxai.lokko",
-      "sha256_cert_fingerprints":
-        ["46:3E:E2:FE:7B:A6:44:AA:9F:87:F5:EF:4D:0B:8C:F6:25:8B:0F:FA:94:A7:43:85:2B:F4:D0:EE:EC:59:59:AD"]
+      "sha256_cert_fingerprints": [
+        "46:3E:E2:FE:7B:A6:44:AA:9F:87:F5:EF:4D:0B:8C:F6:25:8B:0F:FA:94:A7:43:85:2B:F4:D0:EE:EC:59:59:AD"
+      ]
     }
   }
 ]
