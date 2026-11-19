@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+  <meta charset="utf-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="Lokko Market - Buy and sell locally.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Lokko Market</title>
+  <link rel="manifest" href="manifest.json">
+
+  <script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+      const hash = window.location.hash;
+      
+      if (hash.includes('/ad/')) {
+        const parts = hash.split('/ad/');
+        const adId = parts[parts.length - 1].replace('/', '');
+        const playStoreUrl = 'https://play.google.com/store/apps/details?id=com.rxai.lokko';
+
+        const isAndroid = /android/i.test(navigator.userAgent);
+        const isiOS = /ipad|iphone|ipod/i.test(navigator.userAgent);
+
+        if (isAndroid) {
+          // 1. Correct Android intent URL with package: com.rxai.lokko
+          const intentUrl = `intent://ad/${adId}#Intent;scheme=lokko;package=com.rxai.lokko;S.browser_fallback_url=${encodeURIComponent(playStoreUrl)};end;`;
+          
+          // 2. Trigger auto-navigation instantly
+          window.location.replace(intentUrl);
+
+        } else if (isiOS) {
+          window.location.replace(`lokko://ad/${adId}`);
+          setTimeout(() => {
+            window.location.replace('https://apps.apple.com/app/idYOUR_IOS_ID');
+          }, 1500);
+        } else {
+          window.location.replace(playStoreUrl);
+        }
+      }
+    });
+  </script>
+</head>
+<body>
+  <div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; background-color: #f9f9f9; color: #555;">
+    <p>Opening Lokko Market...</p>
+  </div>
+</body>
+</html>
